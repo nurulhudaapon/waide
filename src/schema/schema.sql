@@ -1,16 +1,18 @@
+-- db database
+CREATE DATABASE IF NOT EXISTS db;
+
+-- user table
 CREATE TABLE IF NOT EXISTS user (
     id INT NOT NULL AUTO_INCREMENT,
-    username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE KEY (username),
     UNIQUE KEY (email)
-
 );
 
+-- user_profile table
 CREATE TABLE IF NOT EXISTS user_profile (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
@@ -26,9 +28,23 @@ CREATE TABLE IF NOT EXISTS user_profile (
 CREATE TABLE IF NOT EXISTS code (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
+    algorithm VARCHAR(255) NOT NULL,
+    variation VARCHAR(255) NOT NULL,
     code VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
+-- code_performance table
+CREATE TABLE IF NOT EXISTS code_performance (
+    id INT NOT NULL AUTO_INCREMENT,
+    code_id INT NOT NULL,
+    time INT NOT NULL,
+    memory INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (code_id) REFERENCES code(id)
 );

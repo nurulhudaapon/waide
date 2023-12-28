@@ -1,35 +1,24 @@
-import mysql from "mysql";
-import fs from "fs";
 import dbml from "@dbml/core";
+import fs from "fs";
+import { getConnection } from "../query/db";
 
 export async function initDb() {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    user: "user",
-    password: "password",
-    database: "db",
-    insecureAuth: true,
-    port: 13306,
-    multipleStatements: true,
-  });
-
-  console.clear();
+  const connection = getConnection();
   connection.connect();
 
   const sqlFiles = loadFilesByExtension("./src/schema", ".sql");
-  console.log(sqlFiles);
 
   // read sql files and execute
   for (const file of sqlFiles) {
     const sql = fs.readFileSync(`./src/schema/${file}`, "utf8");
-    const dbmlFile = dbml.importer.import(sql, 'mysql');
+    const dbmlFile = dbml.importer.import(sql, "mysql");
 
     // write dbml file
-    fs.writeFileSync(`./src/schema/${file.replace('.sql', '')}.dbml`, dbmlFile);
+    fs.writeFileSync(`./src/schema/${file.replace(".sql", "")}.dbml`, dbmlFile);
 
     connection.query(sql, function (error, results, fields) {
-    //   if (error) throw error;
-      console.log("Migration done: ", file);
+        if (error) throw error;
+      console.log("Migration done");
     });
   }
 
