@@ -23,3 +23,65 @@ FROM user u
 LEFT JOIN user_profile up ON u.id = up.user_id
 LEFT JOIN code c ON u.id = c.user_id
 LEFT JOIN code_performance cp ON c.id = cp.code_id
+
+-- create_code:
+INSERT INTO code (user_id, algorithm, variation, code, slug) VALUES (?, ?, ?, ?, ?);
+
+-- get_code_list:
+SELECT
+    c.id,
+    c.algorithm,
+    c.variation,
+    c.code,
+    cp.time,
+    cp.memory
+FROM code c
+LEFT JOIN code_performance cp ON c.id = cp.code_id
+
+-- get_code_list_by_slug:
+SELECT
+    c.id,
+    c.algorithm,
+    c.variation,
+    c.code,
+    cp.time,
+    cp.memory
+FROM code c
+LEFT JOIN code_performance cp ON c.id = cp.code_id
+WHERE c.slug = ?
+
+-- get_code:
+SELECT
+    c.id,
+    c.algorithm,
+    c.variation,
+    c.code,
+    cp.time,
+    cp.memory
+FROM code c
+LEFT JOIN code_performance cp ON c.id = cp.code_id
+WHERE c.id = ?
+
+-- create_code_performance:
+INSERT INTO code_performance (code_id, time, memory) VALUES (?, ?, ?);
+
+-- get_algorithm_list:
+SELECT DISTINCT algorithm, slug, variation FROM code;
+
+-- get_algorithm_variation_list:
+SELECT
+    DISTINCT variation
+FROM
+    (
+        SELECT
+            variation,
+            time,
+            memory
+        FROM
+            code
+            LEFT JOIN code_performance cp ON code.id = cp.code_id
+        WHERE slug = ?
+        ORDER BY
+            cp.time ASC,
+            cp.memory ASC
+    ) t;

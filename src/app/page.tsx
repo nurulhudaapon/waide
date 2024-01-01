@@ -7,7 +7,7 @@ export default function Home() {
 
   const user = cookieStore.get('user');
   console.log('user:', user);
-  if (user) return redirect('/dashboard');
+  if (user) return redirect('/algorithm');
   if (!user) return redirect('/user/register');
 
   return redirect('/user')

@@ -7,6 +7,6 @@ export default async function UserSignUp() {
   const cookieStore = cookies()
   const user = cookieStore.get('user');
 
-  if (user) return redirect('/dashboard');
+  if (user) return redirect('/algorithm');
   if (!user) return redirect('/user/register');
 }
