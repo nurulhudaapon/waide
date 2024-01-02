@@ -34,9 +34,15 @@ SELECT
     c.variation,
     c.code,
     cp.time,
-    cp.memory
+    cp.memory,
+    u.id AS user_id,
+    u.email,
+    up.first_name,
+    up.last_name
 FROM code c
 LEFT JOIN code_performance cp ON c.id = cp.code_id
+LEFT JOIN user u ON c.user_id = u.id
+LEFT JOIN user_profile up ON u.id = up.user_id
 
 -- get_code_list_by_slug:
 SELECT

@@ -29,6 +29,10 @@ async function AddCodeForm() {
         console.log('USERID', user.id)
 
      await  executeQuery("create_code", rawFormData);
+
+    //  invalidate cache of implementations page next 13
+
+     redirect(`/algorithm/${rawFormData.slug}`);
     }
 
     return (

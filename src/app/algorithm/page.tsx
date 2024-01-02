@@ -36,7 +36,7 @@ export default async function Index() {
   >("get_algorithm_list");
 
   return (
-    <div className="grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="flex flex-wrap gap-3">
       {algos.map((algo) => (
         <Link
           key={algo.algorithm}

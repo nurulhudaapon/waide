@@ -1,26 +1,25 @@
-
-
-  export function convertToSlug(sentence: string) {
-    const validChars = "abcdefghijklmnopqrstuvwxyz0123456789-";
-    let slug = "";
-  
-    for (let i = 0; i < sentence.length; i++) {
-      const char = sentence[i].toLowerCase();
-  
-      if (validChars.includes(char)) {
-        // Include valid characters in the slug
-        slug += char;
-      } else if (char === " ") {
-        // Replace spaces with hyphens
-        slug += "-";
-      }
-      // Ignore other special characters
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.calculateTextCosineSimilarity = exports.hashPassword = exports.generateAlgorithmDescription = exports.convertToSlug = void 0;
+function convertToSlug(sentence) {
+    var validChars = "abcdefghijklmnopqrstuvwxyz0123456789-";
+    var slug = "";
+    for (var i = 0; i < sentence.length; i++) {
+        var char = sentence[i].toLowerCase();
+        if (validChars.includes(char)) {
+            // Include valid characters in the slug
+            slug += char;
+        }
+        else if (char === " ") {
+            // Replace spaces with hyphens
+            slug += "-";
+        }
+        // Ignore other special characters
     }
-  
     return slug;
-  }
-  
-  const DES_ALGO = {
+}
+exports.convertToSlug = convertToSlug;
+var DES_ALGO = {
     'bfs': 'Breadth-first search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root (or some arbitrary node of a graph, sometimes referred to as a \'search key\'), and explores all of the neighbor nodes at the present depth prior to moving on to the nodes at the next depth level.',
     'dfs': 'Depth-first search (DFS) is an algorithm for traversing or searching tree or graph data structures. The algorithm starts at the root node (selecting some arbitrary node as the root node in the case of a graph) and explores as far as possible along each branch before backtracking.',
     'dijkstra': 'Dijkstra\'s algorithm is an algorithm for finding the shortest paths between nodes in a graph, which may represent, for example, road networks. It was conceived by computer scientist Edsger W. Dijkstra in 1956 and published three years later.',
@@ -48,114 +47,87 @@
     'strand-sort': 'Strand sort is a sorting algorithm. It works by repeatedly pulling sorted sublists out of the list to be sorted and merging them with a result array.',
     'tree-sort': 'Tree sort is a sorting algorithm that is based on Binary Search Tree data structure. It first creates a binary search tree from the elements of the input list or array and then performs an in-order traversal on the created binary search tree to get the elements in sorted order.',
     'b-tree': 'A B-tree is a self-balancing tree data structure that maintains sorted data and allows searches, sequential access, insertions, and deletions in logarithmic time. The B-tree generalizes the binary search tree, allowing for nodes with more than two children.',
-  }
-
-
-export function generateAlgorithmDescription(algorithm: string) {
-  let bestMatch = '';
-  let bestMatchScore = 0;
-
-  for (const key in DES_ALGO) {
-    const score = stringSimilarityScore(algorithm, key + ' ' + DES_ALGO[key as keyof typeof DES_ALGO])
-    if (score > bestMatchScore) {
-      bestMatch = key;
-      bestMatchScore = score;
+};
+function generateAlgorithmDescription(algorithm) {
+    var bestMatch = '';
+    var bestMatchScore = 0;
+    for (var key in DES_ALGO) {
+        var score = stringSimilarityScore(algorithm, key + ' ' + DES_ALGO[key]);
+        if (score > bestMatchScore) {
+            bestMatch = key;
+            bestMatchScore = score;
+        }
     }
-  }
-
-  return DES_ALGO[bestMatch as keyof typeof DES_ALGO];
+    return DES_ALGO[bestMatch];
 }
-
-function stringSimilarityScore(a: string, b: string) {
-  const aWords = a.split(' ').flatMap((word) => word.split('-'));
-  const bWords = b.split(' ').flatMap((word) => word.split('-'));
-  let score = 0;
-
-  for (const aWord of aWords) {
-    for (const bWord of bWords) {
-      if (bWord.toLowerCase() === aWord.toLowerCase()) {
-        score++;
-      }
+exports.generateAlgorithmDescription = generateAlgorithmDescription;
+function stringSimilarityScore(a, b) {
+    var aWords = a.split(' ').flatMap(function (word) { return word.split('-'); });
+    var bWords = b.split(' ').flatMap(function (word) { return word.split('-'); });
+    var score = 0;
+    for (var _i = 0, aWords_1 = aWords; _i < aWords_1.length; _i++) {
+        var aWord = aWords_1[_i];
+        for (var _a = 0, bWords_1 = bWords; _a < bWords_1.length; _a++) {
+            var bWord = bWords_1[_a];
+            if (bWord.toLowerCase() === aWord.toLowerCase()) {
+                score++;
+            }
+        }
     }
-  }
-
-  return score;
+    return score;
 }
-
-export function hashPassword(str: string) {
-  let hash = 3344; // Initial hash value
-
-  for (let i = 0; i < str.length; i++) {
-      hash = (hash * 859) ^ str.charCodeAt(i);
-  }
-
-  return hash >>> 0;
+function hashPassword(str) {
+    var hash = 3344; // Initial hash value
+    for (var i = 0; i < str.length; i++) {
+        hash = (hash * 859) ^ str.charCodeAt(i);
+    }
+    return hash >>> 0;
 }
-
-type TermFreqMap = { [word: string]: number };
-type Dict = { [term: string]: boolean };
-type TermFreqVector = number[];
-
-function calculateTermFrequency(str: string): TermFreqMap {
-  const words = str.split('\n');
-  const termFreq: TermFreqMap = {};
-
-  words.forEach((word) => {
-    termFreq[word] = (termFreq[word] || 0) + 1;
-  });
-
-  return termFreq;
+exports.hashPassword = hashPassword;
+function calculateTermFrequency(str) {
+    var words = str.split('\n');
+    var termFreq = {};
+    words.forEach(function (word) {
+        termFreq[word] = (termFreq[word] || 0) + 1;
+    });
+    return termFreq;
 }
-
-function convertTermFreqMapToVector(map: TermFreqMap, dict: Dict): TermFreqVector {
-  const termFreqVector: TermFreqVector = [];
-
-  for (const term in dict) {
-    termFreqVector.push(map[term] || 0);
-  }
-
-  return termFreqVector;
+function convertTermFreqMapToVector(map, dict) {
+    var termFreqVector = [];
+    for (var term in dict) {
+        termFreqVector.push(map[term] || 0);
+    }
+    return termFreqVector;
 }
-
-function calculateDotProduct(vecA: TermFreqVector, vecB: TermFreqVector): number {
-  let product = 0;
-
-  for (let i = 0; i < vecA.length; i++) {
-    product += vecA[i] * vecB[i];
-  }
-
-  return product;
+function calculateDotProduct(vecA, vecB) {
+    var product = 0;
+    for (var i = 0; i < vecA.length; i++) {
+        product += vecA[i] * vecB[i];
+    }
+    return product;
 }
-
-function calculateVectorMagnitude(vec: TermFreqVector): number {
-  let sum = 0;
-
-  for (let i = 0; i < vec.length; i++) {
-    sum += vec[i] * vec[i];
-  }
-
-  return Math.sqrt(sum);
+function calculateVectorMagnitude(vec) {
+    var sum = 0;
+    for (var i = 0; i < vec.length; i++) {
+        sum += vec[i] * vec[i];
+    }
+    return Math.sqrt(sum);
 }
-
-function calculateCosineSimilarity(vecA: TermFreqVector, vecB: TermFreqVector): number {
-  return calculateDotProduct(vecA, vecB) / (calculateVectorMagnitude(vecA) * calculateVectorMagnitude(vecB));
+function calculateCosineSimilarity(vecA, vecB) {
+    return calculateDotProduct(vecA, vecB) / (calculateVectorMagnitude(vecA) * calculateVectorMagnitude(vecB));
 }
-
-export function calculateTextCosineSimilarity(strA: string, strB: string): number {
-  const termFreqA = calculateTermFrequency(strA);
-  const termFreqB = calculateTermFrequency(strB);
-
-  const dict: Dict = {};
-  for (const term in termFreqA) {
-    dict[term] = true;
-  }
-
-  for (const term in termFreqB) {
-    dict[term] = true;
-  }
-
-  const termFreqVecA = convertTermFreqMapToVector(termFreqA, dict);
-  const termFreqVecB = convertTermFreqMapToVector(termFreqB, dict);
-
-  return calculateCosineSimilarity(termFreqVecA, termFreqVecB);
+function calculateTextCosineSimilarity(strA, strB) {
+    var termFreqA = calculateTermFrequency(strA);
+    var termFreqB = calculateTermFrequency(strB);
+    var dict = {};
+    for (var term in termFreqA) {
+        dict[term] = true;
+    }
+    for (var term in termFreqB) {
+        dict[term] = true;
+    }
+    var termFreqVecA = convertTermFreqMapToVector(termFreqA, dict);
+    var termFreqVecB = convertTermFreqMapToVector(termFreqB, dict);
+    return calculateCosineSimilarity(termFreqVecA, termFreqVecB);
 }
+exports.calculateTextCosineSimilarity = calculateTextCosineSimilarity;
