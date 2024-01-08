@@ -4,8 +4,8 @@ import { redirect } from "next/navigation";
 
 const ITEMS = {
   algorithm: "Algorithm",
-  implementations: "All Implementations",
-  "new-implementation": "+ New Imlpementation",
+  implementations: "All Submissions",
+  "new-implementation": "+ New Submission",
 };
 
 export function NavBar() {

@@ -67,11 +67,11 @@ export function generateAlgorithmDescription(algorithm: string) {
 }
 
 function stringSimilarityScore(a: string, b: string) {
-  const aWords = a.split(' ').flatMap((word) => word.split('-'));
-  const bWords = b.split(' ').flatMap((word) => word.split('-'));
+  const aWords = a?.split(' ').flatMap((word) => word.split('-'));
+  const bWords = b?.split(' ').flatMap((word) => word.split('-'));
   let score = 0;
 
-  for (const aWord of aWords) {
+  for (const aWord of aWords || []) {
     for (const bWord of bWords) {
       if (bWord.toLowerCase() === aWord.toLowerCase()) {
         score++;

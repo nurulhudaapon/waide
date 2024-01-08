@@ -4,6 +4,7 @@ Table "user" {
   "email" VARCHAR(255) [not null]
   "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
   "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "last_submission_at" TIMESTAMP
 
 Indexes {
   email [unique]

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS user (
     email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    last_submission_at TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY (email)
 );
@@ -49,3 +50,13 @@ CREATE TABLE IF NOT EXISTS code_performance (
     PRIMARY KEY (id),
     FOREIGN KEY (code_id) REFERENCES code(id)
 );
+
+-- trigger to update last_submission_at
+-- DELIMITER //
+-- CREATE TRIGGER IF NOT EXISTS update_last_submission_at
+-- AFTER INSERT ON code
+-- FOR EACH ROW
+-- BEGIN
+--     UPDATE user SET last_submission_at = NEW.created_at WHERE id = NEW.user_id;
+-- END//
+-- DELIMITER ;

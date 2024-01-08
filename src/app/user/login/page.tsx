@@ -52,7 +52,7 @@ export default async function UserSignUp() {
         className="flex flex-col justify-center gap-3"
       >
         <label>
-          Email
+          Student ID
           <input type="text" name="email" />
         </label>
         <label>

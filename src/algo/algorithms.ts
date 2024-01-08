@@ -29,7 +29,7 @@ export function generateAlgorithmDescription(algorithm: string) {
   let bestMatchScore = 0;
 
   for (const key in DES_ALGO) {
-    const score = stringSimilarityScore(algorithm, key + ' ' + DES_ALGO[key as keyof typeof DES_ALGO])
+    const score = stringSimilarityScore(algorithm + '', key + ' ' + DES_ALGO[key as keyof typeof DES_ALGO])
     if (score > bestMatchScore) {
       bestMatch = key;
       bestMatchScore = score;
@@ -40,8 +40,8 @@ export function generateAlgorithmDescription(algorithm: string) {
 }
 
 function stringSimilarityScore(a: string, b: string) {
-  const aWords = a.split(' ').flatMap((word) => word.split('-'));
-  const bWords = b.split(' ').flatMap((word) => word.split('-'));
+  const aWords = a?.split(' ').flatMap((word) => word.split('-'));
+  const bWords = b?.split(' ').flatMap((word) => word.split('-'));
   let score = 0;
 
   for (const aWord of aWords) {

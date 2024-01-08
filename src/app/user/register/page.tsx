@@ -49,7 +49,7 @@ export default async function UserSignUp() {
         </label>
 
         <label>
-          Email
+          Student ID
           <input type="text" name="email" />
         </label>
         <label>
