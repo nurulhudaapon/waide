@@ -56,6 +56,15 @@ FROM code c
 LEFT JOIN code_performance cp ON c.id = cp.code_id
 WHERE c.slug = ?
 
+-- update_code:
+UPDATE code SET code = ? WHERE id = ?;
+
+-- delete_code:
+DELETE FROM code WHERE id = ?;
+
+-- update_user_profile:
+UPDATE user_profile SET first_name = ?, last_name = ? WHERE user_id = ?;
+
 -- get_code:
 SELECT
     c.id,
@@ -73,6 +82,26 @@ INSERT INTO code_performance (code_id, time, memory) VALUES (?, ?, ?);
 
 -- get_algorithm_list:
 SELECT DISTINCT algorithm, slug, variation FROM code;
+
+-- get_algorithm_performance_list:
+SELECT DISTINCT
+    c.algorithm,
+    c.variation,
+    AVG(cp.time) AS time,
+    AVG(cp.memory) AS memory
+FROM code c
+LEFT JOIN code_performance cp ON c.id = cp.code_id
+GROUP BY c.algorithm, c.variation;
+
+-- get_top_performing_algorithms_by_slug:
+SELECT
+    c.algorithm,
+    c.variation,
+    cp.time,
+    cp.memory
+FROM code c
+LEFT JOIN code_performance cp ON c.id = cp.code_id
+WHERE c.slug = ?
 
 -- get_algorithm_variation_list:
 SELECT
